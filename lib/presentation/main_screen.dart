@@ -19,28 +19,28 @@ class _MainScreenState extends State<MainScreen> {
         destinations: const [
           NavigationDestination(
             icon: Icon(
-              Icons.home_outlined,
+              Icons.featured_play_list_outlined,
             ),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            selectedIcon: Icon(Icons.featured_play_list),
+            label: 'แนะนำ',
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.chat_bubble_outlined,
+              Icons.search_outlined,
             ),
             selectedIcon: Icon(
-              Icons.chat_bubble,
+              Icons.search,
             ),
-            label: 'chat',
+            label: 'ค้นหา',
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.settings_outlined,
+              Icons.playlist_play_outlined,
             ),
             selectedIcon: Icon(
-              Icons.settings,
+              Icons.playlist_play,
             ),
-            label: 'setting',
+            label: 'คอลเลกชันของฉัน',
           ),
         ],
       ),

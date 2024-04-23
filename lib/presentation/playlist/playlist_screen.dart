@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../common/extension/app_constant.dart';
+import '../../common/widget/app_image.dart';
 import 'bloc/playlist_bloc.dart';
+
+part 'widget/_playlist_card.dart';
 
 class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
@@ -28,28 +32,33 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Playlist'),
-      ),
-      floatingActionButton: Visibility(
-        visible: _scrollController.hasClients && _scrollController.offset > 100,
-        child: FloatingActionButton(
-          onPressed: () {
-            _scrollController.animateTo(0, duration: const Duration(milliseconds: 100), curve: Curves.linear);
+        title: BlocBuilder<PlaylistBloc, PlaylistState>(
+          builder: (context, state) {
+            return Text(switch (state) {
+              PlaylistLoaded() => state.message,
+              _ => 'Featured Playlist',
+            });
           },
-          child: const Icon(Icons.arrow_upward),
         ),
       ),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      // floatingActionButton: Visibility(
+      //   visible: _scrollController.hasClients && _scrollController.offset > 100,
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       _scrollController.animateTo(0, duration: const Duration(milliseconds: 100), curve: Curves.linear);
+      //     },
+      //     child: const Icon(Icons.arrow_upward),
+      //   ),
+      // ),
+      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       body: BlocBuilder<PlaylistBloc, PlaylistState>(
         builder: (context, state) {
-          if (state is PlaylistInitial) {
-            context
-                .read<PlaylistBloc>()
-                .add(const GetPlaylistFeatureListEvent(shouldRefresh: true));
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is PlaylistLoading) {
+          if (state is PlaylistInitial || state is PlaylistLoading) {
+            if (state is PlaylistInitial) {
+              context
+                  .read<PlaylistBloc>()
+                  .add(const GetPlaylistFeatureListEvent(shouldRefresh: true));
+            }
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -63,32 +72,41 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               child: CustomScrollView(
                 controller: _scrollController,
                 slivers: [
-                  SliverToBoxAdapter(child: Text(state.message, style: Theme.of(context).textTheme.headlineMedium,)),
                   SliverGrid.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 0.65),
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
-                      return Text(state.data[index].title);
+                      return PlaylistCard(
+                        image: state.data[index].coverImage,
+                        title: state.data[index].title,
+                        owner: state.data[index].owner,
+                        description: state.data[index].description,
+                        onTap: () => context.go('/playlist/${state.data[index].id}'),
+                      );
                     },
                   ),
-                  if (state.hasNextPage) const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
+                  if (state.hasNextPage)
+                    const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
                 ],
               ),
             );
           } else if (state is PlaylistError) {
-            return Column(
-              children: [
-                Text(state.message),
-                ElevatedButton(
-                  onPressed: () {
-                    context
-                        .read<PlaylistBloc>()
-                        .add(const GetPlaylistFeatureListEvent(shouldRefresh: true));
-                  },
-                  child: const Text('Retry'),
-                ),
-              ],
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.message),
+                  ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<PlaylistBloc>()
+                          .add(const GetPlaylistFeatureListEvent(shouldRefresh: true));
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             );
           } else {
             return const SizedBox();
