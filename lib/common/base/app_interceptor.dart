@@ -32,7 +32,7 @@ class AppInterceptor extends Interceptor {
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      GetIt.instance.get<LoginUseCase>().call(null).then((value) {
+      await GetIt.instance.get<LoginUseCase>().call(null).then((value) {
         _retry(err.requestOptions);
       });
     }

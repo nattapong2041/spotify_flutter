@@ -1,13 +1,13 @@
 part of '../playlist_screen.dart';
 
-class PlaylistCard extends StatelessWidget {
+class _PlaylistCard extends StatelessWidget {
   final String? image;
   final String title;
   final String? owner;
   final String? description;
   final VoidCallback? onTap;
 
-  const PlaylistCard(
+  const _PlaylistCard(
       {super.key, required this.image, required this.title, this.owner, this.description, this.onTap});
 
   @override

@@ -4,7 +4,7 @@ class AppTheme {
   static get mainTheme => ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(surfaceTintColor: Colors.transparent),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
@@ -16,6 +16,7 @@ class AppTheme {
   static get darkTheme => ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(surfaceTintColor: Colors.transparent),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.android: ZoomPageTransitionsBuilder(),

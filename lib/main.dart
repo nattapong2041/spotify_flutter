@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
           //  supportedLocales: AppLocalizations.supportedLocales,
            routerConfig: appRouter,
            theme: AppTheme.mainTheme,
-           darkTheme: AppTheme.mainTheme,
+           darkTheme: AppTheme.darkTheme,
          ),
        );
   }

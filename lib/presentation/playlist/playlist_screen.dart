@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../common/extension/app_constant.dart';
 import '../../common/widget/app_image.dart';
@@ -77,12 +76,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         crossAxisCount: 2, childAspectRatio: 0.65),
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
-                      return PlaylistCard(
+                      return _PlaylistCard(
                         image: state.data[index].coverImage,
                         title: state.data[index].title,
                         owner: state.data[index].owner,
                         description: state.data[index].description,
-                        onTap: () => context.go('/playlist/${state.data[index].id}'),
                       );
                     },
                   ),

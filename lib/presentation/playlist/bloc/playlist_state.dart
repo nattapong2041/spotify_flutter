@@ -21,8 +21,8 @@ final class PlaylistLoaded extends PlaylistState {
 
   const PlaylistLoaded({required super.data, this.message = "", this.hasNextPage = false});
 
-  PlaylistLoaded copyWith({List<PlaylistEntity>? data, String? message}) {
-    return PlaylistLoaded(data: data ?? this.data, message: message ?? this.message);
+  PlaylistLoaded copyWith({List<PlaylistEntity>? data, String? message, bool? hasNextPage}) {
+    return PlaylistLoaded(data: data ?? this.data, message: message ?? this.message, hasNextPage: hasNextPage ?? this.hasNextPage);
   }
 
   @override
