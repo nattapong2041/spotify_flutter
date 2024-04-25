@@ -6,7 +6,10 @@ import '../../domain/repository/playlist_repository.dart';
 import '../../domain/repository/search_repository.dart';
 import '../../domain/usecase/album/get_album_by_id_usecase.dart';
 import '../../domain/usecase/authorization/login_usecase.dart';
+import '../../domain/usecase/playlist/create_playlist_usecase.dart';
+import '../../domain/usecase/playlist/get_playlist_by_id_usecase.dart';
 import '../../domain/usecase/playlist/get_playlist_feature_list_usecase.dart';
+import '../../domain/usecase/playlist/get_playlist_me_list_usecase.dart';
 import '../../domain/usecase/search/search_usecase.dart';
 import 'app_dependency_injection.dart';
 
@@ -28,6 +31,21 @@ class DomainInjection {
         init: (GetIt getIt) {
           getIt.registerLazySingleton<GetPlaylistFeatureListUsecase>(
             () => GetPlaylistFeatureListUsecase(
+              repository: getIt.get<PlaylistRepository>(),
+            ),
+          );
+          getIt.registerLazySingleton<GetPlaylistMeListUsecase>(
+            () => GetPlaylistMeListUsecase(
+              repository: getIt.get<PlaylistRepository>(),
+            ),
+          );
+          getIt.registerLazySingleton<CreatePlaylistListUsecase>(
+            () => CreatePlaylistListUsecase(
+              repository: getIt.get<PlaylistRepository>(),
+            ),
+          );
+          getIt.registerLazySingleton<GetPlaylistByIdUsecase>(
+            () => GetPlaylistByIdUsecase(
               repository: getIt.get<PlaylistRepository>(),
             ),
           );

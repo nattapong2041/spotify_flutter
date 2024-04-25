@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/extension/app_constant.dart';
-import '../../common/widget/app_image.dart';
 import 'bloc/playlist_bloc.dart';
+import 'widget/playlist_card.dart';
 
-part 'widget/_playlist_card.dart';
 
 class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
@@ -72,11 +70,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 controller: _scrollController,
                 slivers: [
                   SliverGrid.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.65),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        childAspectRatio: 0.65, maxCrossAxisExtent: 250),
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
-                      return _PlaylistCard(
+                      return PlaylistCard(
                         image: state.data[index].coverImage,
                         title: state.data[index].title,
                         owner: state.data[index].owner,

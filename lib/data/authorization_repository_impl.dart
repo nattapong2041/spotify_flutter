@@ -14,13 +14,11 @@ class AuthorizationRepositoryImpl implements AuthorizationRepository {
   @override
   Future<Result<String>> login() async {
     try {
-      var result = await _remote.login();
+      var result = await _remote.authorizationUrl();
 
-      if (result != null) {
-       await _local.saveToken(result);
-      }
+      //await _local.saveToken(result.toString());
 
-      return Result.value(result!);
+      return Result.value(result.toString());
     } catch (e) {
       return Result.error(e.toString());
     }

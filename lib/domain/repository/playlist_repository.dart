@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 
 import '../../common/base/pagination.dart';
+import '../entity/playlist/playlist_detail_entity.dart';
 import '../entity/playlist/playlist_entity.dart';
 import '../entity/track_entity.dart';
 
@@ -10,10 +11,12 @@ abstract interface class PlaylistRepository {
     required int offset,
   });
 
-  Future<Result<Pagination<PlaylistEntity>>> getMeList({
+  Future<Result<(String userId, Pagination<PlaylistEntity>)>> getMeList({
     required int limit,
     required int offset,
   });
+
+  Future<Result<PlaylistDetailEntity>> getById({required String id});
 
   Future<Result<Pagination<TrackEntity>>> trackList(
       {required String id, required int limit, required int offset});
@@ -21,7 +24,7 @@ abstract interface class PlaylistRepository {
   Future<Result<PlaylistEntity>> create({
     required String userId,
     required String name,
-    required String description,
+    String? description,
     bool public = false,
   });
 

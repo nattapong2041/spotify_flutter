@@ -3,30 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/extension/app_constant.dart';
 import '../../../common/widget/app_image.dart';
-import 'bloc/album_detail_bloc.dart';
+import 'bloc/playlist_detail_bloc.dart';
 
-class AlbumDetailScreen extends StatelessWidget {
-  const AlbumDetailScreen({super.key});
+class PlaylistDetailScreen extends StatelessWidget {
+  const PlaylistDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: BlocBuilder<AlbumDetailBloc, AlbumDetailState>(
+        title: BlocBuilder<PlaylistDetailBloc, PlaylistDetailState>(
           builder: (context, state) {
             return Text(switch (state) {
-              AlbumDetailLoaded() => state.data.title,
+              PlaylistDetailLoaded() => state.data.title,
               _ => 'ไม่พบข้อมูล',
             });
           },
         ),
       ),
       body: LayoutBuilder(builder: (context, constraints) {
-        return BlocBuilder<AlbumDetailBloc, AlbumDetailState>(
+        return BlocBuilder<PlaylistDetailBloc, PlaylistDetailState>(
           builder: (context, state) {
-            if (state is AlbumDetailLoading) {
+            if (state is PlaylistDetailLoading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is AlbumDetailLoaded) {
+            } else if (state is PlaylistDetailLoaded) {
               return CustomScrollView(
                 slivers: [
                   SliverAppBar(
@@ -75,7 +75,7 @@ class AlbumDetailScreen extends StatelessWidget {
                   ),
                 ],
               );
-            } else if (state is AlbumDetailError) {
+            } else if (state is PlaylistDetailError) {
               return Center(child: Text(state.message));
             } else {
               return const Center(child: Text('ไม่พบข้อมูล'));

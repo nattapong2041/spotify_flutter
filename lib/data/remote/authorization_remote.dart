@@ -1,23 +1,41 @@
 import 'package:dio/dio.dart';
+import 'package:oauth2/oauth2.dart' as oauth2;
 
+import '../../common/config/config.dart';
 
 class AuthorizationRemote {
   final Dio _dio;
 
-  const AuthorizationRemote({required Dio dio}) : _dio = dio;
+  AuthorizationRemote({required Dio dio}) : _dio = dio;
 
   final clientId = '5b857c8a015845d492da0accd529b596';
   final clientSecret = '8e15bf38ad3147edbad4cbfffec7761e';
 
-  final scope = 'user-read-private user-read-email';
+  final List<String> scope = [
+    'user-read-private',
+    'user-read-email',
+    'playlist-modify-public',
+    'playlist-modify-private',
+    'playlist-read-private'
+  ];
 
-  Future<String?> login() async {
-    final response = await _dio.post('/api/token', data: {
-      'grant_type': 'client_credentials',
-      'client_id': clientId,
-      'client_secret': clientSecret
+  // Future<Uri> login() async {
+  //   var client = await authorizationUrl();
+
+  //   return client;
+  // }
+
+  Future<Uri> authorizationUrl() async {
+    var grant = oauth2.AuthorizationCodeGrant(
+        clientId,
+        Uri.parse('https://accounts.spotify.com/authorize'),
+        Uri.parse('https://accounts.spotify.com/api/token'),
+        secret: clientSecret, getParameters: (mediaType, text) {
+      return {'response_type': 'code'};
     });
-    
-    return response.data['access_token'];
+
+    var authorizationUrl = grant.getAuthorizationUrl(Uri.parse(Config.redirectUrl), scopes: scope);
+
+    return authorizationUrl;
   }
 }

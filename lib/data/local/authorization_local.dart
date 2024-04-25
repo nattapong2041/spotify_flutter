@@ -13,4 +13,15 @@ class AuthorizationLocal {
       _realm.add(credential, update: true);
     });
   }
+
+  Future<String?> getToken() async {
+    var credential = _realm.all<CredentialRModel>().firstOrNull;
+    return credential?.token;
+  }
+
+  Future<void> deleteToken() async {
+    _realm.write(() {
+      _realm.deleteAll<CredentialRModel>();
+    });
+  }
 }

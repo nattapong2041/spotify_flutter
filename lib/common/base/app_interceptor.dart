@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:realm/realm.dart';
 
-import '../../data/local/realm/credential_rmodel.dart';
-import '../../domain/usecase/authorization/login_usecase.dart';
+import '../../data/local/authorization_local.dart';
 import '../config/config.dart';
 
 class AppInterceptor extends Interceptor {
@@ -12,9 +10,9 @@ class AppInterceptor extends Interceptor {
   const AppInterceptor(this.dio);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.baseUrl.contains(Config.accountUrl) == false) {
-      var token = GetIt.instance.get<Realm>().all<CredentialRModel>().firstOrNull?.token;
+      var token = await GetIt.instance.get<AuthorizationLocal>().getToken();
 
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
@@ -32,9 +30,10 @@ class AppInterceptor extends Interceptor {
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
-      await GetIt.instance.get<LoginUseCase>().call(null).then((value) {
-        _retry(err.requestOptions).then((value) => handler.resolve(value));
-      });
+      await GetIt.instance.get<AuthorizationLocal>().deleteToken();
+      // await GetIt.instance.get<LoginUseCase>().call(null).then((value) async {
+      //   await _retry(err.requestOptions).then((value) => handler.resolve(value));
+      // });
       return;
     }
     handler.next(err);
