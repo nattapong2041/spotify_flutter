@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 // import '../../domain/usecase/news/get_news_usecase.dart';
 // import '../../features/news/bloc/news_bloc.dart';
 import '../../domain/usecase/album/get_album_by_id_usecase.dart';
+import '../../domain/usecase/playlist/add_item_to_playlist_usecase.dart';
 import '../../domain/usecase/playlist/create_playlist_usecase.dart';
 import '../../domain/usecase/playlist/get_playlist_by_id_usecase.dart';
 import '../../domain/usecase/playlist/get_playlist_feature_list_usecase.dart';
@@ -27,6 +28,7 @@ class PresenterInjection {
             createPlaylistListUsecase: GetIt.I.get<CreatePlaylistListUsecase>(),
             getPlaylistMeListUsecase: GetIt.I.get<GetPlaylistMeListUsecase>()));
         getIt.registerFactory<PlaylistDetailBloc>(() => PlaylistDetailBloc(
+            addItemToPlaylistListUsecase: GetIt.I.get<AddItemToPlaylistListUsecase>(),
             getPlaylistByIdUsecase: GetIt.I.get<GetPlaylistByIdUsecase>()));
       },
     );

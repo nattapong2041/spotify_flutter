@@ -36,10 +36,10 @@ class AlbumDetailScreen extends StatelessWidget {
                     stretch: true,
                     expandedHeight: 300,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Padding(
+                      background: state.data.image != null ? Padding(
                         padding: const EdgeInsets.only(bottom: 50),
-                        child: AppUrlImage(state.data.image, width: 200, height: 200),
-                      ),
+                        child: AppUrlImage(state.data.image!, width: 200, height: 200),
+                      ) : null,
                       expandedTitleScale: 1,
                       title: Column(
                         mainAxisSize: MainAxisSize.min,

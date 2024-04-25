@@ -16,9 +16,22 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
   PlaylistRepositoryImpl({required PlaylistRemote remote}) : _remote = remote;
 
   @override
-  Future<Result<String>> addItem({required List<String> uri, required String playlistId}) {
-    // TODO: implement addItem
-    throw UnimplementedError();
+  Future<Result<String>> addItem({required List<String> uri, required String playlistId}) async {
+    try {
+      final result = await _remote.addItem(
+        uri: uri,
+        playlistId: playlistId,
+      );
+
+      if (result.isValue) {
+        final data = result.asValue!.value;
+        return Result.value(data);
+      }
+
+      return Result.error(result.asError!.error.toString());
+    } catch (e) {
+      return Result.error(e.toString());
+    }
   }
 
   @override
@@ -117,8 +130,8 @@ class PlaylistRepositoryImpl implements PlaylistRepository {
             id: data.id ?? "",
             title: data.name ?? "",
             owner: data.owner?.displayName,
-            image: data.images!.first.url!,
-            coverImage: data.images!.first.url,
+            image: data.images?.first.url,
+            coverImage: data.images?.first.url,
             genres: const [],
             tracks: data.tracks?.items?.map((e) => e.track!.toEntity()).toList() ?? [],
           ),

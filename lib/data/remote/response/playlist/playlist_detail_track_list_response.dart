@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../track_response.dart';
 import 'playlist_detail_track_response.dart';
 
 part 'playlist_detail_track_list_response.g.dart';

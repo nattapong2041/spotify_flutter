@@ -1,10 +1,8 @@
-import '../track_entity.dart';
 import 'playlist_entity.dart';
 
 class PlaylistDetailEntity extends PlaylistEntity {
-  final String image;
+  final String? image;
   final List<String> genres;
-  final List<TrackEntity> tracks;
 
   const PlaylistDetailEntity({
     required super.id,
@@ -12,9 +10,9 @@ class PlaylistDetailEntity extends PlaylistEntity {
     required super.title,
     super.description,
     super.owner,
-    required this.image,
+    this.image,
     required this.genres,
-    required this.tracks,
+    required super.tracks,
   });
 
   @override
@@ -22,6 +20,5 @@ class PlaylistDetailEntity extends PlaylistEntity {
         ...super.props,
         image,
         genres,
-        tracks,
       ];
 }

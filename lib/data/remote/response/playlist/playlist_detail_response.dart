@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../image_response.dart';
 import '../owner_response.dart';
-import '../track_list_response.dart';
 import 'playlist_detail_track_list_response.dart';
 
 part 'playlist_detail_response.g.dart';

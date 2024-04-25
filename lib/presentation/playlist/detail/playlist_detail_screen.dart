@@ -5,8 +5,12 @@ import '../../../common/extension/app_constant.dart';
 import '../../../common/widget/app_image.dart';
 import 'bloc/playlist_detail_bloc.dart';
 
+part 'widget/_add_track_bottomsheet.dart';
+
 class PlaylistDetailScreen extends StatelessWidget {
-  const PlaylistDetailScreen({super.key});
+  final String id;
+  final String userId;
+  const PlaylistDetailScreen({super.key, required this.id, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,26 @@ class PlaylistDetailScreen extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: userId == 'me' ? FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              useRootNavigator: true,
+              showDragHandle: true,
+              builder: (_) {
+                return _AddTrackBottomsheet(
+                  onAddTrack: (uri) {
+                    context.read<PlaylistDetailBloc>().add(AddTrackToPlaylist(
+                          playlistId: id,
+                          uri: uri,
+                        ));
+                    context.read<PlaylistDetailBloc>().add(GetPlaylistDetail(id));
+                  },
+                );
+              });
+        },
+        child: const Icon(Icons.add),
+      ) : null,
       body: LayoutBuilder(builder: (context, constraints) {
         return BlocBuilder<PlaylistDetailBloc, PlaylistDetailState>(
           builder: (context, state) {
@@ -34,12 +58,14 @@ class PlaylistDetailScreen extends StatelessWidget {
                     pinned: true,
                     floating: true,
                     stretch: true,
-                    expandedHeight: 300,
+                    expandedHeight: state.data.image != null ? 300 : 0,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Padding(
-                        padding: const EdgeInsets.only(bottom: 50),
-                        child: AppUrlImage(state.data.image, width: 200, height: 200),
-                      ),
+                      background: state.data.image != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 50),
+                              child: AppUrlImage(state.data.image!, width: 200, height: 200),
+                            )
+                          : null,
                       expandedTitleScale: 1,
                       title: Column(
                         mainAxisSize: MainAxisSize.min,

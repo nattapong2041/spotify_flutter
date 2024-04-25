@@ -42,7 +42,6 @@ class PlaylistResponse {
 
 extension PlaylistResponseExtension on PlaylistResponse {
   PlaylistEntity toEntity() {
-    print("object");
     return PlaylistEntity(
       description: description,
       id: id!,

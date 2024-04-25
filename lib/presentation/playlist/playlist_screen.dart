@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../common/routes/app_router.dart';
 import 'bloc/playlist_bloc.dart';
 import 'widget/playlist_card.dart';
 
@@ -79,6 +81,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         title: state.data[index].title,
                         owner: state.data[index].owner,
                         description: state.data[index].description,
+                        onTap: (){
+                          context.goNamed(ScreenPaths.playlistDetail, pathParameters: {
+                            'id': state.data[index].id,
+                          });
+                        },
                       );
                     },
                   ),

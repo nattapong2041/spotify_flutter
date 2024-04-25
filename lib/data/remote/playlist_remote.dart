@@ -87,4 +87,27 @@ class PlaylistRemote {
       return Result.error(ErrorResponse(message: e.toString()));
     }    
   }
+
+  Future<Result<String>> addItem({
+    required String playlistId,
+    List<String>? uri,
+    int position = 0,
+    
+  }) async {
+    try {
+      final result = await _dio.post(
+        '/v1/playlists/$playlistId/tracks',
+        data: {
+          'uris': uri,
+          'position': position,
+        },
+      );
+
+      return Result.value(result.data['snapshot_id']);
+    } on DioException catch (e) {
+      return Result.error(ErrorResponse.fromJson(e.response!.data['error']).message ?? "");
+    } catch (e) {
+      return Result.error(ErrorResponse(message: e.toString()));
+    }    
+  }
 }

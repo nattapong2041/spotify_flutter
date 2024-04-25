@@ -6,6 +6,7 @@ import '../../domain/repository/playlist_repository.dart';
 import '../../domain/repository/search_repository.dart';
 import '../../domain/usecase/album/get_album_by_id_usecase.dart';
 import '../../domain/usecase/authorization/login_usecase.dart';
+import '../../domain/usecase/playlist/add_item_to_playlist_usecase.dart';
 import '../../domain/usecase/playlist/create_playlist_usecase.dart';
 import '../../domain/usecase/playlist/get_playlist_by_id_usecase.dart';
 import '../../domain/usecase/playlist/get_playlist_feature_list_usecase.dart';
@@ -46,6 +47,11 @@ class DomainInjection {
           );
           getIt.registerLazySingleton<GetPlaylistByIdUsecase>(
             () => GetPlaylistByIdUsecase(
+              repository: getIt.get<PlaylistRepository>(),
+            ),
+          );
+          getIt.registerLazySingleton<AddItemToPlaylistListUsecase>(
+            () => AddItemToPlaylistListUsecase(
               repository: getIt.get<PlaylistRepository>(),
             ),
           );

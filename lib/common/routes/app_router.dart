@@ -61,6 +61,17 @@ final appRouter = GoRouter(
                 create: (context) => GetIt.I.get<PlaylistBloc>(),
                 child: const PlaylistScreen(),
               ),
+              routes: [
+                  GoRoute(
+                    name: ScreenPaths.playlistDetail,
+                    path: 'detail/:id',
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => GetIt.I.get<PlaylistDetailBloc>()
+                        ..add(GetPlaylistDetail(state.pathParameters['id']!)),
+                      child: PlaylistDetailScreen(id: state.pathParameters['id']!, userId: 'other'),
+                    ),
+                  )
+                ]
             ),
           ],
         ),
@@ -103,7 +114,7 @@ final appRouter = GoRouter(
                     builder: (context, state) => BlocProvider(
                       create: (context) => GetIt.I.get<PlaylistDetailBloc>()
                         ..add(GetPlaylistDetail(state.pathParameters['id']!)),
-                      child: const PlaylistDetailScreen(),
+                      child: PlaylistDetailScreen(id: state.pathParameters['id']!, userId: 'me'),
                     ),
                   )
                 ]),

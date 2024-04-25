@@ -15,3 +15,14 @@ final class GetPlaylistDetail extends PlaylistDetailEvent {
   @override
   List<Object> get props => [id];
 }
+
+final class AddTrackToPlaylist extends PlaylistDetailEvent {
+  final String playlistId;
+  final String uri;
+
+  const AddTrackToPlaylist({
+    required this.playlistId,
+    required this.uri,
+  });
+
+}
