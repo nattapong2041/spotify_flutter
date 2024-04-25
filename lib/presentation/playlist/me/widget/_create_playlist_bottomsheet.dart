@@ -10,14 +10,16 @@ class _CreatePlayListBottomSheet extends StatefulWidget {
 
 class _CreatePlayListBottomSheetState extends State<_CreatePlayListBottomSheet> {
   bool isButtonEnabled = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
       child: Form(
+        key: _formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onChanged: () {
           setState(() {
-            isButtonEnabled = Form.maybeOf(primaryFocus!.context!)?.validate() ?? false;
+            isButtonEnabled = _formKey.currentState?.validate() ?? false;
           });
         },
         child: Padding(
@@ -52,8 +54,8 @@ class _CreatePlayListBottomSheetState extends State<_CreatePlayListBottomSheet> 
               ElevatedButton(
                 onPressed: isButtonEnabled
                     ? () {
-                        if ((Form.maybeOf(primaryFocus!.context!)?.validate() ?? false)) {
-                          Form.of(primaryFocus!.context!).save();
+                        if (_formKey.currentState?.validate() ?? false) {
+                          _formKey.currentState!.save();
                         }
                       }
                     : null,
