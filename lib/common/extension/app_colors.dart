@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-extension HexColor on Color {
+extension HexColor on String {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
-  static Color fromHex(String hexString) {
+ Color toColor() {
     final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
+    if (length == 6 || length == 7) buffer.write('ff');
+    buffer.write(replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 }

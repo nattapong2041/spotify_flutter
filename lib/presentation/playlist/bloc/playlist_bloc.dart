@@ -21,7 +21,7 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class PlaylistBloc extends Bloc<PlaylistEvent, PlaylistState> {
   final GetPlaylistFeatureListUsecase _getPlaylistFeatureListUsecase;
 
-  Pagination<PlaylistEntity> _pagination = Pagination<PlaylistEntity>();
+  Pagination<PlaylistEntity> _pagination = Pagination<PlaylistEntity>(limit: 20);
 
   PlaylistBloc({required GetPlaylistFeatureListUsecase getPlaylistFeatureListUsecase})
       : _getPlaylistFeatureListUsecase = getPlaylistFeatureListUsecase,

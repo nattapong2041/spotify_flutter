@@ -34,6 +34,11 @@ class CredentialRModel extends _CredentialRModel
       RealmObjectBase.getChanges<CredentialRModel>(this);
 
   @override
+  Stream<RealmObjectChanges<CredentialRModel>> changesFor(
+          [List<String>? keyPaths]) =>
+      RealmObjectBase.getChangesFor<CredentialRModel>(this, keyPaths);
+
+  @override
   CredentialRModel freeze() =>
       RealmObjectBase.freezeObject<CredentialRModel>(this);
 
@@ -46,6 +51,7 @@ class CredentialRModel extends _CredentialRModel
 
   static EJsonValue _toEJson(CredentialRModel value) => value.toEJson();
   static CredentialRModel _fromEJson(EJsonValue ejson) {
+    if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
         'id': EJsonValue id,
@@ -62,7 +68,7 @@ class CredentialRModel extends _CredentialRModel
   static final schema = () {
     RealmObjectBase.registerFactory(CredentialRModel._);
     register(_toEJson, _fromEJson);
-    return SchemaObject(
+    return const SchemaObject(
         ObjectType.realmObject, CredentialRModel, 'CredentialRModel', [
       SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('token', RealmPropertyType.string),
